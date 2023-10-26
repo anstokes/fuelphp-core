@@ -31,7 +31,7 @@ class Cookie
 	protected static $config = array(
 		'expiration'            => 0,
 		'path'                  => '/',
-		'domain'                => null,
+		'domain'                => '',
 		'secure'                => false,
 		'http_only'             => false,
 	);
@@ -77,7 +77,7 @@ class Cookie
 	 * @param   boolean   $http_only   if true, the cookie will be made accessible only through the HTTP protocol
 	 * @return  boolean
 	 */
-	public static function set($name, $value, $expiration = null, $path = null, $domain = null, $secure = null, $http_only = null)
+	public static function set($name, $value, $expiration = null, $path = null, $domain = '', $secure = null, $http_only = null)
 	{
 		// you can't set cookies in CLi mode
 		if (\Fuel::$is_cli)

@@ -192,7 +192,7 @@ abstract class Controller_Rest extends \Controller
 		}
 
 		// no data returned?
-		if ((is_array($data) and empty($data)) or ($data == ''))
+		if ((is_array($data) and empty($data)) or ($data == '') && !$http_status)
 		{
 			// override the http status with the NO CONTENT status
 			$http_status = $this->no_data_status;

@@ -311,7 +311,7 @@ class DB
 	 *
 	 * @param   string  $table  the table name to prefix
 	 * @param   string  $db     the database connection to use
-	 * @return  string  the prefixed table name or the prefix
+	 * @return  array
 	 */
 	public static function list_tables($like = null, $db = null)
 	{

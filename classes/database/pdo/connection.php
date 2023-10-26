@@ -46,6 +46,13 @@ class Database_PDO_Connection extends \Database_Connection
 			'cached'       => false,
 		), $this->_config);
 
+		// enable compression if needed
+		if ($this->_config['connection']['compress'])
+		{
+			// use client compression with mysql or mysqli (doesn't work with mysqlnd)
+			$this->_config['attrs'][\PDO::MYSQL_ATTR_COMPRESS] = true;
+		}
+		
 		// convert generic config values to specific attributes
 		if ( ! empty($this->_config['connection']['persistent']))
 		{
@@ -85,6 +92,16 @@ class Database_PDO_Connection extends \Database_Connection
 
 			throw new \Database_Exception(str_replace($this->_config['connection']['password'], str_repeat('*', 10), $e->getMessage()), $e->getCode(), $e, $error_code);
 		}
+
+		// set the DB charset if needed
+		$this->set_charset($this->_config['charset']);
+
+		// any post-connect commands defined?
+		if ( ! empty($this->_config['command']))
+		{
+			$x = $this->_connection->exec($this->_config['command']);
+		}
+
 	}
 
 	/**
@@ -501,9 +518,6 @@ class Database_PDO_Connection extends \Database_Connection
 			$this->_config['connection']['password'],
 			$this->_config['attrs']
 		);
-
-		// set the DB charset if needed
-		$this->set_charset($this->_config['charset']);
 	}
 
 	/**

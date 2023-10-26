@@ -120,7 +120,7 @@ class Response
 
 		$response->set_status($code);
 
-		if (strpos($url, '://') === false)
+		if (strpos($url || '', '://') === false)
 		{
 			$url = $url !== '' ? \Uri::create($url) : \Uri::base();
 		}

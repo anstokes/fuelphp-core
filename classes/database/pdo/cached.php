@@ -82,7 +82,8 @@ class Database_PDO_Cached extends \Database_Result implements \SeekableIterator,
 	 *
 	 * @return bool
 	 */
-	public function seek($offset)
+	#[\ReturnTypeWillChange]
+	public function seek(/*int */$offset)/*: void*/
 	{
 		if ( ! $this->offsetExists($offset))
 		{
@@ -103,20 +104,19 @@ class Database_PDO_Cached extends \Database_Result implements \SeekableIterator,
 	 *
 	 * @return  mixed
 	 */
-	public function current()
+	#[\ReturnTypeWillChange]
+	public function current()/*: mixed*/
 	{
 		if ($this->valid())
 		{
 			$this->_row = $this->_results[$this->_current_row];
 
 			// sanitize the data if needed
-			if ($this->_sanitization_enabled)
-			{
-				$this->_row = \Security::clean($this->_row, null, 'security.output_filter');
-			}
+			$this->_sanitizate();
 		}
 		else
 		{
+			// auto sanitized row in rewind()->next()
 			$this->rewind();
 		}
 
@@ -128,11 +128,19 @@ class Database_PDO_Cached extends \Database_Result implements \SeekableIterator,
 	 *
 	 * @return  mixed
 	 */
-	public function next()
+	#[\ReturnTypeWillChange]
+	public function next()/*: void*/
 	{
 		parent::next();
 
+		$this->_row = null;
+		
 		isset($this->_results[$this->_current_row]) and $this->_row = $this->_results[$this->_current_row];
+
+		// sanitize the data if needed
+		$this->_sanitizate();
+
+		return $this->_row;
 	}
 
 	/**************************
@@ -151,7 +159,8 @@ class Database_PDO_Cached extends \Database_Result implements \SeekableIterator,
 	 *
 	 * @return boolean
 	 */
-	public function offsetExists($offset)
+	#[\ReturnTypeWillChange]
+	public function offsetExists(/*mixed */$offset)/*: bool*/
 	{
 		return isset($this->_results[$offset]);
 	}
@@ -165,7 +174,8 @@ class Database_PDO_Cached extends \Database_Result implements \SeekableIterator,
 	 *
 	 * @return  mixed
 	 */
-	public function offsetGet($offset)
+	#[\ReturnTypeWillChange]
+	public function offsetGet(/*mixed */$offset)/*: mixed*/
 	{
 		if ( ! $this->offsetExists($offset))
 		{
@@ -176,10 +186,7 @@ class Database_PDO_Cached extends \Database_Result implements \SeekableIterator,
 		$result = $this->_results[$offset];
 
 		// sanitize the data if needed
-		if ($this->_sanitization_enabled)
-		{
-			$result = \Security::clean($result, null, 'security.output_filter');
-		}
+		$this->_sanitizate();
 
 		return $result;
 	}
@@ -193,7 +200,8 @@ class Database_PDO_Cached extends \Database_Result implements \SeekableIterator,
 	 *
 	 * @throws  \FuelException
 	 */
-	final public function offsetSet($offset, $value)
+	#[\ReturnTypeWillChange]
+	final public function offsetSet(/*mixed */$offset, /*mixed */$value)/*: void*/
 	{
 		throw new \FuelException('Database results are read-only');
 	}
@@ -206,7 +214,8 @@ class Database_PDO_Cached extends \Database_Result implements \SeekableIterator,
 	 *
 	 * @throws  \FuelException
 	 */
-	final public function offsetUnset($offset)
+	#[\ReturnTypeWillChange]
+	final public function offsetUnset(/*mixed */$offset)/*: void*/
 	{
 		throw new \FuelException('Database results are read-only');
 	}

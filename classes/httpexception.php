@@ -12,7 +12,7 @@
 
 namespace Fuel\Core;
 
-abstract class HttpException extends \FuelException
+abstract class HttpException extends \FuelException implements \Throwable
 {
 	/**
 	 * Must return a response object for the handle method

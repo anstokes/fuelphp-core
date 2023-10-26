@@ -84,7 +84,7 @@ class Database_Query
 			// Return the SQL string
 			return $this->compile();
 		}
-		catch (\Exception $e)
+		catch (\Throwable $e)
 		{
 			return $e->getMessage();
 		}
@@ -249,7 +249,7 @@ class Database_Query
 		}
 
 		// Import the SQL locally
-		$sql = $this->_sql;
+		$sql = (string) $this->_sql;
 
 		if ( ! empty($this->_parameters))
 		{
@@ -319,7 +319,7 @@ class Database_Query
 		}
 
 		// fetch the result caching flag
-		$caching = $this->_caching or $db->caching();
+		$caching = isset($this->_caching) ? $this->_caching : $db->caching();
 
 		if ($caching and ! empty($this->_lifetime) and $this->_type === \DB::SELECT)
 		{

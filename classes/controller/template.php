@@ -24,7 +24,7 @@ namespace Fuel\Core;
 abstract class Controller_Template extends \Controller
 {
 	/**
-	* @var string page template
+	* @var string|object page template
 	*/
 	public $template = 'template';
 

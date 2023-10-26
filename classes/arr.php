@@ -27,7 +27,7 @@ class Arr
 	 *
 	 * @param   array   $array    The search array
 	 * @param   mixed   $key      The dot-notated key or array of keys
-	 * @param   string  $default  The default value
+	 * @param   mixed   $default  The default value
 	 * @return  mixed
 	 */
 	public static function get($array, $key, $default = null)
@@ -54,7 +54,7 @@ class Arr
 
 		is_object($key) and $key = (string) $key;
 
-		if (array_key_exists($key, $array))
+		if (array_key_exists($key, (array)$array))
 		{
 			return $array[$key];
 		}

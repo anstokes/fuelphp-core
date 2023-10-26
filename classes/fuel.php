@@ -95,6 +95,11 @@ class Fuel
 	 */
 	public static $profiling = false;
 
+	/**
+	 * @var  bool  Whether to profile AJAX requests
+	 */
+	public static $profile_ajax = false;
+
 	public static $locale = 'en_US';
 
 	public static $timezone = 'UTC';
@@ -151,6 +156,7 @@ class Fuel
 		static::$profiling = \Config::get('profiling', false);
 		if (static::$profiling or \Config::get('log_profile_data', false))
 		{
+			static::$profile_ajax = \Config::get('profile_ajax', false);
 			\Profiler::init();
 		}
 
@@ -269,14 +275,15 @@ class Fuel
 			// for interactive sessions, check if we need to output profiler data
 			if ( ! \Fuel::$is_cli)
 			{
-				$headers = headers_list();
-				$show = true;
+				$show = ( ! \Input::is_ajax() or static::$profile_ajax);
 
-				foreach ($headers as $header)
-				{
-					if (stripos($header, 'content-type') === 0 and stripos($header, 'text/html') === false)
+				if ($show and ($headers = headers_list())) {
+					foreach ($headers as $header)
 					{
-						$show = false;
+						if (stripos($header, 'content-type') === 0 and stripos($header, 'text/html') === false)
+						{
+							$show = false;
+						} 
 					}
 				}
 
