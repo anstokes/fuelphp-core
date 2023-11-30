@@ -20,7 +20,7 @@ namespace Fuel\Core;
  */
 class Test_Fieldset extends TestCase
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		// fake the uri for this request
 		isset($_SERVER['PATH_INFO']) and $this->pathinfo = $_SERVER['PATH_INFO'];
@@ -34,7 +34,7 @@ class Test_Fieldset extends TestCase
 		\Request::active($request);
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		// remove the fake uri
 		if (property_exists($this, 'pathinfo'))
@@ -87,7 +87,12 @@ class Test_Fieldset extends TestCase
 		));
 
 		$output = $form->build();
-		$output = str_replace(array("\n", "\t"), "", $output);
+		$find = array("\n", "\t");
+		// Check if Windows OS
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+			$find[] = "\r";
+		}
+		$output = str_replace($find, "", $output);	
 		$expected = '<form action="welcome/index" accept-charset="utf-8" method="post"><table><tr><td class=""></td><td class=""><input type="radio" value="0" id="form_gender_0" name="gender" /> <label for="form_gender_0">male</label><br /><input type="radio" value="1" id="form_gender_1" name="gender" checked="checked" /> <label for="form_gender_1">female</label><br /><span></span></td></tr></table></form>';
 		$this->assertEquals($expected, $output);
 	}

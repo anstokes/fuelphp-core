@@ -154,7 +154,7 @@ abstract class Database_Query_Builder extends \Database_Query
 	 *
 	 * @return  string
 	 */
-	protected function _compile_set(\Database_Connection$db, array $values)
+	protected function _compile_set(\Database_Connection $db, array $values)
 	{
 		$set = array();
 		foreach ($values as $group)

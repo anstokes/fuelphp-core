@@ -20,7 +20,18 @@ namespace Fuel\Core;
  */
 class Test_Format extends TestCase
 {
-	protected function setUp()
+	protected static function normalizeLineEndings($string)
+	{
+		// Check if Windows OS
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+			// Adjust line endings accordingly
+			return str_replace("\r\n", "\n", $string);
+		}
+
+		return $string;
+	}
+
+	protected function setUp(): void
 	{
 		Config::load('format', true);
 		Config::set('format', array(
@@ -61,10 +72,10 @@ class Test_Format extends TestCase
 					array('field1' => 'Value 1', 'field2' => 35, 'field3' => 123123),
 					array('field1' => 'Value 1', 'field2' => "Value\nline 2", 'field3' => 'Value 3'),
 				),
-				'"field1","field2","field3"
+				static::normalizeLineEndings('"field1","field2","field3"
 "Value 1","35","123123"
 "Value 1","Value
-line 2","Value 3"',
+line 2","Value 3"'),
 			),
 		);
 	}
@@ -77,9 +88,9 @@ line 2","Value 3"',
 					array('First' => 'Jane','Last' => 'Doe','Email' => 'jane@doe.com','Nr1' => 3434534,'Nr2' => 1,'Remark' => "asdfasdf\nasdfasdf",'Nr3' => 23432),
 					array('First' => 'John','Last' => 'Doe','Email' => 'john@doe.com','Nr1' => 52939494,'Nr2' => 1,'Remark' => 'dfdfdf','Nr3' => 35353),
 				),
-				'"First","Last","Email","Nr1","Nr2","Remark","Nr3"
+				static::normalizeLineEndings('"First","Last","Email","Nr1","Nr2","Remark","Nr3"
 "Jane","Doe","jane@doe.com",3434534,1,"asdfasdf'."\n".'asdfasdf",23432
-"John","Doe","john@doe.com",52939494,1,"dfdfdf",35353',
+"John","Doe","john@doe.com",52939494,1,"dfdfdf",35353'),
 			),
 		);
 	}
@@ -92,9 +103,9 @@ line 2","Value 3"',
 					array('First' => 'Jane','Last' => 'Doe','Email' => 'jane@doe.com','Nr1' => 3434534,'Nr2' => 1,'Remark' => "asdfasdf\nasdfasdf",'Nr3' => 23432),
 					array('First' => 'John','Last' => 'Doe','Email' => 'john@doe.com','Nr1' => 52939494,'Nr2' => 1,'Remark' => 'dfdfdf','Nr3' => 35353),
 				),
-				'First;Last;Email;Nr1;Nr2;Remark;Nr3
+				static::normalizeLineEndings('First;Last;Email;Nr1;Nr2;Remark;Nr3
 Jane;Doe;jane@doe.com;3434534;1;asdfasdf'."\n".'asdfasdf;23432
-John;Doe;john@doe.com;52939494;1;dfdfdf;35353',
+John;Doe;john@doe.com;52939494;1;dfdfdf;35353'),
 			),
 		);
 	}
@@ -107,9 +118,9 @@ John;Doe;john@doe.com;52939494;1;dfdfdf;35353',
 					array(0 => 'Value 1', 1 => 35, 2 => 123123),
 					array(0 => 'Value 1', 1 => "Value\nline 2", 2 => 'Value 3'),
 				),
-				'"Value 1","35","123123"
+				static::normalizeLineEndings('"Value 1","35","123123"
 "Value 1","Value
-line 2","Value 3"',
+line 2","Value 3"'),
 			),
 		);
 	}
@@ -121,15 +132,15 @@ line 2","Value 3"',
 				array(
 					array('field1' => 'Value 1', 'field2' => 35, 'field3' => true, 'field4' => false),
 				),
-				'<?xml version="1.0" encoding="utf-8"?>
+				static::normalizeLineEndings('<?xml version="1.0" encoding="utf-8"?>
 <xml><item><field1>Value 1</field1><field2>35</field2><field3>1</field3><field4/></item></xml>
-',
-				'<?xml version="1.0" encoding="utf-8"?>
+'),
+				static::normalizeLineEndings('<?xml version="1.0" encoding="utf-8"?>
 <xml><item><field1>Value 1</field1><field2>35</field2><field3>true</field3><field4>false</field4></item></xml>
-',
-				'<?xml version="1.0" encoding="utf-8"?>
+'),
+				static::normalizeLineEndings('<?xml version="1.0" encoding="utf-8"?>
 <xml><item><field1>Value 1</field1><field2>35</field2><field3>1</field3><field4>0</field4></item></xml>
-',
+'),
 			),
 		);
 	}
@@ -353,7 +364,7 @@ line 2","Value 3"',
 <xml><articles><article><title>test</title><author>foo</author></article></articles></xml>
 ';
 
-		$this->assertEquals($expected, Format::forge($array)->to_xml());
+		$this->assertEquals(static::normalizeLineEndings($expected), Format::forge($array)->to_xml());
 	}
 
 	/**
@@ -376,7 +387,7 @@ line 2","Value 3"',
 <root><articles><article><title>test</title><author>foo</author></article></articles></root>
 ';
 
-		$this->assertEquals($expected, Format::forge($array)->to_xml(null, null, 'root'));
+		$this->assertEquals(static::normalizeLineEndings($expected), Format::forge($array)->to_xml(null, null, 'root'));
 	}
 
 	/**
@@ -399,7 +410,7 @@ line 2","Value 3"',
 <xml><articles><article><title>test</title><author>&lt;h1&gt;hero&lt;/h1&gt;</author></article></articles></xml>
 ';
 
-		$this->assertEquals($expected, Format::forge($array)->to_xml());
+		$this->assertEquals(static::normalizeLineEndings($expected), Format::forge($array)->to_xml());
 	}
 
 	/**
@@ -438,7 +449,7 @@ line 2","Value 3"',
 <xml><articles><article><title>test</title><author><![CDATA[<h1>hero</h1>]]></author></article></articles></xml>
 ';
 
-		$this->assertEquals($expected, Format::forge($array)->to_xml(null, null, 'xml', true));
+		$this->assertEquals(static::normalizeLineEndings($expected), Format::forge($array)->to_xml(null, null, 'xml', true));
 	}
 
 	/**
@@ -527,7 +538,7 @@ line 2","Value 3"',
 		}
 	]
 }';
-		$this->assertEquals($expected, Format::forge($array)->to_json(null, true));
+		$this->assertEquals(static::normalizeLineEndings($expected), Format::forge($array)->to_json(null, true));
 
 		// change config options
 		$config = \Config::get('format.json.encode.options');
@@ -553,7 +564,7 @@ EOD;
 	]
 }
 EOD;
-		$this->assertEquals($expected, Format::forge($array)->to_json(null, true));
+		$this->assertEquals(static::normalizeLineEndings($expected), Format::forge($array)->to_json(null, true));
 
 		// restore config options
 		\Config::set('format.json.encode.options', $config);

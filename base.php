@@ -22,7 +22,7 @@ if ( ! function_exists('import'))
 	function import($path, $folder = 'classes')
 	{
 		$path = str_replace('/', DIRECTORY_SEPARATOR, $path);
-		// load it ffrom the core if it exists
+		// load it from the core if it exists
 		if (is_file(COREPATH.$folder.DIRECTORY_SEPARATOR.$path.'.php'))
 		{
 			require_once COREPATH.$folder.DIRECTORY_SEPARATOR.$path.'.php';

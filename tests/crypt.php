@@ -22,7 +22,7 @@ class Test_Crypt extends TestCase
 {
 	private static $config_backup;
 	
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		\Config::load('crypt', true);
 		static::$config_backup = \Config::get('crypt');
@@ -32,7 +32,7 @@ class Test_Crypt extends TestCase
 		\Crypt::_init();
 	}
 
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass(): void
 	{
 		foreach (static::$config_backup as $key => $val)
 		{

@@ -219,9 +219,9 @@ class Redis_Db
 		// build the Redis unified protocol command
 		array_unshift($args, strtoupper($name));
 
-		$command = sprintf('*%d%s%s%s', count($args), CRLF, implode(array_map(function($arg) {
+		$command = sprintf('*%d%s%s%s', count($args), CRLF, implode(CRLF, array_map(function($arg) {
 			return sprintf('$%d%s%s', strlen($arg), CRLF, $arg);
-		}, $args), CRLF), CRLF);
+		}, $args)), CRLF);
 
 		// add it to the pipeline queue
 		$this->queue[] = $command;

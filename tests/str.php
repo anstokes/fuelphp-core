@@ -20,7 +20,7 @@ namespace Fuel\Core;
  */
 class Test_Str extends TestCase
 {
-	public function truncate_provider()
+	public static function truncate_provider()
 	{
 		return array(
 			array(15, 'Lorem ipsum dolor sit amet, Пиочинаючюи adipiscing elit.'),

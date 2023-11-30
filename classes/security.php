@@ -205,7 +205,7 @@ class Security
 	{
 		if ( ! is_array($value))
 		{
-			$value = filter_var($value, FILTER_SANITIZE_STRING);
+			$value = filter_var(strip_tags($value), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 		}
 		else
 		{
@@ -252,7 +252,7 @@ class Security
 				$value[$k] = static::htmlentities($v, $flags, $encoding, $double_encode);
 			}
 		}
-		elseif ($value instanceof \Iterator or get_class($value) == 'stdClass')
+		elseif ($value instanceof \Iterator or ($value && get_class($value) == 'stdClass'))
 		{
 			// Add to $already_cleaned variable
 			$already_cleaned[] = $value;

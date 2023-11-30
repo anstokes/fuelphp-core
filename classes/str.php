@@ -430,7 +430,12 @@ class Str
 	 */
 	public static function is_serialized($string)
 	{
-		$array = @unserialize($string);
+		try {
+			$array = @unserialize($string);
+		} catch (\Exception $e) {
+			// Later PHP versions throw exception, instead of silently failing
+			$array = false;
+		}
 		return ! ($array === false and $string !== 'b:0;');
 	}
 

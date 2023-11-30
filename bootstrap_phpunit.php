@@ -59,13 +59,6 @@ if (class_exists('AspectMock\Kernel'))
 	// Load in the Fuel autoloader
 	$kernel->loadFile(COREPATH.'classes'.DIRECTORY_SEPARATOR.'autoloader.php');
 }
-else
-{
-	// Load in the Fuel autoloader
-	require COREPATH.'classes'.DIRECTORY_SEPARATOR.'autoloader.php';
-}
-
-class_alias('Fuel\\Core\\Autoloader', 'Autoloader');
 
 // Boot the app
 require_once APPPATH.'bootstrap.php';

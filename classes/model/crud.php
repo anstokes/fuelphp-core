@@ -12,7 +12,7 @@
 
 namespace Fuel\Core;
 
-class Model_Crud extends \Model implements \Iterator, \ArrayAccess, \Serializable, \Sanitization
+class Model_Crud extends \Model implements \Iterator, \ArrayAccess, \Sanitization
 {
 	/**
 	 * @var  string  $_table_name  The table name (must set this in your Model)
@@ -716,26 +716,31 @@ class Model_Crud extends \Model implements \Iterator, \ArrayAccess, \Serializabl
 	 * Implementation of the Iterator interface
 	 */
 
+	#[\ReturnTypeWillChange]
 	public function rewind()
 	{
 		reset($this->_data);
 	}
 
+	#[\ReturnTypeWillChange]
 	public function current()
 	{
 		return current($this->_data);
 	}
 
+	#[\ReturnTypeWillChange]
 	public function key()
 	{
 		return key($this->_data);
 	}
 
+	#[\ReturnTypeWillChange]
 	public function next()
 	{
 		return next($this->_data);
 	}
 
+	#[\ReturnTypeWillChange]
 	public function valid()
 	{
 		return key($this->_data) !== null;
@@ -748,6 +753,7 @@ class Model_Crud extends \Model implements \Iterator, \ArrayAccess, \Serializabl
 	 * @param   string  $value   value
 	 * @return  void
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetSet($offset, $value)
 	{
 		$this->_data[$offset] = $value;
@@ -759,6 +765,7 @@ class Model_Crud extends \Model implements \Iterator, \ArrayAccess, \Serializabl
 	 * @param   string  $offset  class property
 	 * @return  bool
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetExists($offset)
 	{
 		return array_key_exists($offset, $this->_data);
@@ -770,6 +777,7 @@ class Model_Crud extends \Model implements \Iterator, \ArrayAccess, \Serializabl
 	 * @param   string  $offset  class property
 	 * @return  void
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetUnset($offset)
 	{
 		unset($this->_data[$offset]);
@@ -781,6 +789,7 @@ class Model_Crud extends \Model implements \Iterator, \ArrayAccess, \Serializabl
 	 * @param   string  $offset  class property
 	 * @return  mixed
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
 		if (array_key_exists($offset, $this->_data))
@@ -930,14 +939,14 @@ class Model_Crud extends \Model implements \Iterator, \ArrayAccess, \Serializabl
 	 *
 	 * @return  array  model data
 	 */
-	public function serialize()
+	public function __serialize()
 	{
 		$data = $this->_data;
 
 		$data['_is_new'] = $this->_is_new;
 		$data['_is_frozen'] = $this->_is_frozen;
 
-		return serialize($data);
+		return $data;
 	}
 
 	/**
@@ -945,7 +954,7 @@ class Model_Crud extends \Model implements \Iterator, \ArrayAccess, \Serializabl
 	 *
 	 * @return  array  model data
 	 */
-	public function unserialize($data)
+	public function __unserialize($data)
 	{
 		$data = unserialize($data);
 

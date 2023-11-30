@@ -232,6 +232,7 @@ class Cache_Storage_Redis extends \Cache_Storage_Driver
 	 */
 	protected function unprep_contents($payload)
 	{
+		$payload = $payload ?: '';
 		$properties_end = strpos($payload, '{{/'.static::PROPS_TAG.'}}');
 		if ($properties_end === FALSE)
 		{

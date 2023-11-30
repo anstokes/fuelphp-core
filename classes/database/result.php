@@ -241,6 +241,7 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 	 *
 	 * @return  integer
 	 */
+	#[\ReturnTypeWillChange]
 	public function count()
 	{
 		return $this->_total_rows;
@@ -258,6 +259,7 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 	 *
 	 * @return boolean
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetExists($offset)
 	{
 		return ($offset >= 0 and $offset < $this->_total_rows);
@@ -272,6 +274,7 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 	 *
 	 * @return  mixed
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
 		if ( ! $this->seek($offset))
@@ -299,6 +302,7 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 	 *
 	 * @throws  \FuelException
 	 */
+	#[\ReturnTypeWillChange]
 	final public function offsetSet($offset, $value)
 	{
 		throw new \FuelException('Database results are read-only');
@@ -312,6 +316,7 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 	 *
 	 * @throws  \FuelException
 	 */
+	#[\ReturnTypeWillChange]
 	final public function offsetUnset($offset)
 	{
 		throw new \FuelException('Database results are read-only');
@@ -324,6 +329,7 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 	 *
 	 * @return  integer
 	 */
+	#[\ReturnTypeWillChange]
 	public function key()
 	{
 		return $this->_current_row;
@@ -336,6 +342,7 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 	 *
 	 * @return  $this
 	 */
+	#[\ReturnTypeWillChange]
 	public function next()
 	{
 		++$this->_current_row;
@@ -349,6 +356,7 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 	 *
 	 * @return  $this
 	 */
+	#[\ReturnTypeWillChange]
 	public function prev()
 	{
 		--$this->_current_row;
@@ -362,6 +370,7 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 	 *
 	 * @return  $this
 	 */
+	#[\ReturnTypeWillChange]
 	public function rewind()
 	{
 		$this->_current_row = 0;
@@ -375,6 +384,7 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 	 *
 	 * @return  boolean
 	 */
+	#[\ReturnTypeWillChange]
 	public function valid()
 	{
 		return $this->offsetExists($this->_current_row);

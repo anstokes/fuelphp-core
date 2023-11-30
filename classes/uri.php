@@ -136,7 +136,7 @@ class Uri
 			return $request->uri->get();
 		}
 
-		return null;
+		return '';
 	}
 
 	/**

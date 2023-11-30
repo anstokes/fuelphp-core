@@ -20,7 +20,7 @@ namespace Fuel\Core;
  */
 class Test_Form extends TestCase
 {
-	protected function setUp()
+	protected function setUp(): void
 	{
 		Config::load('form');
 		Config::set('form', array(
