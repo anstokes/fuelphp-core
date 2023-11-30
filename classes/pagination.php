@@ -76,7 +76,7 @@ class Pagination
 	{
 		if ($exists = static::instance($name))
 		{
-			\Error::notice('Pagination with this name exists already, cannot be overwritten.');
+			\Errorhandler::notice('Pagination with this name exists already, cannot be overwritten.');
 			return $exists;
 		}
 
@@ -585,7 +585,7 @@ class Pagination
 			}
 
 			// do we have a segment offset due to the base_url containing segments?
-			$seg_offset = parse_url(rtrim(\Uri::base(), '/'));
+			$seg_offset = \Uri::base() ? parse_url(rtrim(\Uri::base(), '/')) : '';
 			$seg_offset = empty($seg_offset['path']) ? 0 : count(explode('/', trim($seg_offset['path'], '/')));
 
 			// is the page number a URI segment?

@@ -94,6 +94,12 @@ class Fuel
 	 * @var  bool  Whether to display the profiling information
 	 */
 	public static $profiling = false;
+	
+	public static $profile_json = false;
+	
+	public static $observers = true;
+	
+	public static $variables = array();
 
 	public static $locale = 'en_US';
 
@@ -149,6 +155,10 @@ class Fuel
 
 		static::$profiling = \Config::get('profiling', false);
 		static::$profiling and \Profiler::init();
+		
+		if (static::$profiling) {
+			static::$profile_json = \Config::get('profile_json', false);
+		}
 
 		// set a default timezone if one is defined
 		try
@@ -235,7 +245,12 @@ class Fuel
 			{
 				if (stripos($header, 'content-type') === 0 and stripos($header, 'text/html') === false)
 				{
-					$show = false;
+					if (static::$profile_json && (stripos($header, 'application/json') !== false)) {
+						// JSON profiling enabled
+						header('Content-Type: text/html');
+					} else {
+						$show = false;
+					}
 				}
 			}
 
