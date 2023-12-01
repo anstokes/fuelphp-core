@@ -1982,6 +1982,11 @@ class Crypt_Base
         }
 
         // Create the $inline function and return its name as string. Ready to run!
+        if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+            eval('$func = function ($_action, &$self, $_text) { ' . $init_crypt . 'if ($_action == "encrypt") { ' . $encrypt . ' } else { ' . $decrypt . ' } };');
+            return $func;
+        }
+        
         return create_function('$_action, &$self, $_text', $init_crypt . 'if ($_action == "encrypt") { ' . $encrypt . ' } else { ' . $decrypt . ' }');
     }
 
