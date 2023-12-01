@@ -100,6 +100,22 @@ abstract class Session_Driver
 	}
 
 	// --------------------------------------------------------------------
+	
+	/**
+	 * set the session read-only (changes will not be saved) flag
+	 *
+	 * @access	public
+	 * @return	Fuel\Core\Session_Driver
+	 */
+	public function read_only($value=true)
+	{
+		// change configuration to specified value
+		$this->config['read_only'] = (bool)$value;
+			
+		return $this;
+	}
+	
+	// --------------------------------------------------------------------
 
 	/**
 	 * write the session
