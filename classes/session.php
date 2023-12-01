@@ -356,6 +356,19 @@ class Session
 	// --------------------------------------------------------------------
 
 	/**
+	 * set read-only flag on the session instance
+	 *
+	 * @access	public
+	 * @return	void
+	 */
+	public static function read_only($value=true)
+	{
+		return static::instance()->read_only($value);
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
 	 * write the session
 	 *
 	 * @access	public
