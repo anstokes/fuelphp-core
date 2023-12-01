@@ -852,9 +852,9 @@ class Crypt_Hash
      */
     public function pbkdf2( $p, $s, $c, $kl, $a = 'sha256' )
     {
-        $hl = strlen(hash($a, null, true)); # Hash length
-        $kb = ceil($kl / $hl);              # Key blocks to compute
-        $dk = '';                           # Derived key
+        $hl = strlen(hash($a, '', true)); # Hash length
+        $kb = ceil($kl / $hl);            # Key blocks to compute
+        $dk = '';                         # Derived key
 
         # Create key
         for ( $block = 1; $block <= $kb; $block ++ )
