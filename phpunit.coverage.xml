@@ -7,6 +7,11 @@
   colors="true"
   stopOnFailure="false"
 >
+  <coverage includeUncoveredFiles="false">
+    <report>
+      <html outputDirectory="../coverage/html"/>
+    </report>
+  </coverage>
   <php>
     <server name="doc_root" value="../../"/>
     <server name="app_path" value="fuel/app"/>
