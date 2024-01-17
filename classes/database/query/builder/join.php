@@ -110,7 +110,14 @@ class Database_Query_Builder_Join extends \Database_Query_Builder
 
 		if ($this->_type)
 		{
-			$sql = strtoupper($this->_type).' JOIN';
+			switch ($this->_type) {
+				case 'straight':
+					$sql = strtoupper($this->_type).'_JOIN';
+					break;
+
+				default:
+					$sql = strtoupper($this->_type).' JOIN';
+			}
 		}
 		else
 		{
