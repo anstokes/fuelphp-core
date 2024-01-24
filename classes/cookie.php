@@ -85,7 +85,7 @@ class Cookie
 			return false;
 		}
 
-		$value = \Fuel::value($value);
+		$value = \Fuel::value($value) ? : '';
 
 		// use the class defaults for the other parameters if not provided
 		is_null($expiration) and $expiration = static::$config['expiration'];
